@@ -18,6 +18,7 @@ jest.mock("@actions/github", () => ({
   },
 }));
 jest.mock("@actions/github/lib/utils", () => ({
+  GitHub: {
     plugin: () => {
       // function necessary to be used as constructor
       return function () {
