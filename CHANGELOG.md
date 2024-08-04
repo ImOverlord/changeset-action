@@ -1,5 +1,11 @@
 # @changesets/action
 
+## 1.5.0
+
+### Minor Changes
+
+- [#1](https://github.com/ImOverlord/changeset-action/pull/1) [`4f8b56c`](https://github.com/ImOverlord/changeset-action/commit/4f8b56c8d625cd76b4707b7cf689dc37a830ce46) Thanks [@ImOverlord](https://github.com/ImOverlord)! - Add option to customise the changeset-release name instead of using current branch
+
 ## 1.4.7
 
 ### Patch Changes
