@@ -31,6 +31,9 @@ inputs:
   branch:
     description: Sets the branch in which the action will run. Default to `github.ref_name` if not provided
     required: false
+  pullRequestBranchName:
+    description: Sets the branch name that will be used to create the release pull request, it will always start by `changeset-release/`. Default to `changeset-release/${branch}`
+    required: false
 outputs:
   published:
     description: A boolean value to indicate whether a publishing is happened or not

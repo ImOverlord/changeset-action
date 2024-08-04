@@ -30,7 +30,6 @@ const getOptionalInput = (name: string) => core.getInput(name) || undefined;
   core.info("setting GitHub credentials");
   await fs.writeFile(
     `${process.env.HOME}/.netrc`,
-    `machine github.com\nlogin github-actions[bot]\npassword ${githubToken}`
   );
 
   let { changesets } = await readChangesetState();
@@ -38,7 +37,6 @@ const getOptionalInput = (name: string) => core.getInput(name) || undefined;
   let publishScript = core.getInput("publish");
   let hasChangesets = changesets.length !== 0;
   const hasNonEmptyChangesets = changesets.some(
-    (changeset) => changeset.releases.length > 0
   );
   let hasPublishScript = !!publishScript;
 
@@ -52,7 +50,6 @@ const getOptionalInput = (name: string) => core.getInput(name) || undefined;
       return;
     case !hasChangesets && hasPublishScript: {
       core.info(
-        "No changesets found, attempting to publish any unpublished packages to npm"
       );
 
       let userNpmrcPath = `${process.env.HOME}/.npmrc`;
@@ -65,22 +62,18 @@ const getOptionalInput = (name: string) => core.getInput(name) || undefined;
         });
         if (authLine) {
           core.info(
-            "Found existing auth token for the npm registry in the user .npmrc file"
           );
         } else {
           core.info(
-            "Didn't find existing auth token for the npm registry in the user .npmrc file, creating one"
           );
           fs.appendFileSync(
             userNpmrcPath,
-            `\n//registry.npmjs.org/:_authToken=${process.env.NPM_TOKEN}\n`
           );
         }
       } else {
         core.info("No user .npmrc file found, creating one");
         fs.writeFileSync(
           userNpmrcPath,
-          `//registry.npmjs.org/:_authToken=${process.env.NPM_TOKEN}\n`
         );
       }
 
@@ -94,7 +87,6 @@ const getOptionalInput = (name: string) => core.getInput(name) || undefined;
         core.setOutput("published", "true");
         core.setOutput(
           "publishedPackages",
-          JSON.stringify(result.publishedPackages)
         );
       }
       return;
@@ -110,6 +102,7 @@ const getOptionalInput = (name: string) => core.getInput(name) || undefined;
         commitMessage: getOptionalInput("commit"),
         hasPublishScript,
         branch: getOptionalInput("branch"),
+        pullRequestBranchName: getOptionalInput("pullRequestBranchName"),
       });
 
       core.setOutput("pullRequestNumber", String(pullRequestNumber));
