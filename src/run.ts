@@ -300,6 +300,7 @@ type VersionOptions = {
   hasPublishScript?: boolean;
   prBodyMaxCharacters?: number;
   branch?: string;
+  pullRequestBranchName?: string;
 };
 
 type RunVersionResult = {
@@ -315,12 +316,13 @@ export async function runVersion({
   hasPublishScript = false,
   prBodyMaxCharacters = MAX_CHARACTERS_PER_MESSAGE,
   branch,
+  pullRequestBranchName,
 }: VersionOptions): Promise<RunVersionResult> {
   const octokit = setupOctokit(githubToken);
 
   let repo = `${github.context.repo.owner}/${github.context.repo.repo}`;
   branch = branch ?? github.context.ref.replace("refs/heads/", "");
-  let versionBranch = `changeset-release/${branch}`;
+  let versionBranch = `changeset-release/${pullRequestBranchName ?? branch}`;
 
   let { preState } = await readChangesetState(cwd);
 
